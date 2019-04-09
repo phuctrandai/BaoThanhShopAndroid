@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Bao Thanh Shop</string>
+    <string name="logoContentDescription">Bao Thanh Logo</string>
+    <string name="title_activity_main">Bảo Thạnh Shop</string>
+    <string name="navigation_drawer_open">Mở menu</string>
+    <string name="navigation_drawer_close">Đóng menu</string>
+    <string name="nav_header_title">Bao Thanh Shop</string>
+    <string name="nav_header_subtitle">Bao Thanh Slogan</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Cài đặt</string>
+    <string name="nav_about_title">Giới thiệu chương trình</string>
+    <string name="shop_name_spash">Bảo Thạnh Shop</string>
+</resources>

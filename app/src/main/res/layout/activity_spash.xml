@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context=".SpashActivity">
+
+    <ImageView
+        android:id="@+id/iv_logo_spash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tv_shop_name"
+        android:layout_centerInParent="true"
+        android:layout_margin="32dp"
+        android:contentDescription="@string/logoContentDescription"
+        android:scaleX="3.0"
+        android:scaleY="3.0"
+        android:src="@mipmap/logo_baothanh" />
+
+    <TextView
+        android:id="@+id/tv_shop_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="64dp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorAccent"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:text="@string/shop_name_spash"
+        android:textSize="32sp" />
+
+    <ProgressBar
+        android:id="@+id/pb_loading_spash"
+        style="@style/Base.Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_shop_name"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
