@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,9 +31,12 @@ import android.widget.Toast;
 import com.practice.phuc.baothanhshop.Adapters.ProductAdapter;
 import com.practice.phuc.baothanhshop.Models.VProduct;
 import com.practice.phuc.baothanhshop.Utils.OkHttpUtil;
+import com.squareup.moshi.Json;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -152,22 +156,18 @@ public class MainActivity extends AppCompatActivity
 
     private void attempLoadProducts(final String barcode) {
         if (OkHttpUtil.getConnectivityStatus(this) == OkHttpUtil.TYPE_NOT_CONNECTED) {
-            showSnackbarMessage("Không có kết nối Internet");
+            Snackbar.make(mDrawerLayoutMain, "Không có kết nối Internet", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Thử lại", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            attempLoadProducts(mBarcode);
+                        }
+                    }).show();
 
         } else {
             mLoadProductsTask = new LoadProductsTask();
             mLoadProductsTask.execute(barcode);
         }
-    }
-
-    private void showSnackbarMessage(String message) {
-        Snackbar.make(mDrawerLayoutMain, message, BaseTransientBottomBar.LENGTH_INDEFINITE)
-                .setAction("Thử lại", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        attempLoadProducts(mBarcode);
-                    }
-                }).show();
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -200,7 +200,13 @@ public class MainActivity extends AppCompatActivity
                         return true;
 
                     } else if (mResponse.code() == OkHttpUtil.BAD_REQUEST) {
-                        errorMessage = mResponse.body() != null ? mResponse.body().string() : "";
+                        if (mResponse.body() != null) {
+                            String responseBody = mResponse.body().string();
+                            errorMessage = responseBody.substring(12, responseBody.lastIndexOf("\"}"));
+
+                        } else {
+                            errorMessage = "Không tim thấy máy chủ";
+                        }
                         return false;
 
                     } else if (mResponse.code() == OkHttpUtil.NOT_FOUND) {
@@ -244,7 +250,8 @@ public class MainActivity extends AppCompatActivity
                     e.printStackTrace();
                 }
             } else {
-                showSnackbarMessage(errorMessage);
+                Snackbar.make(mDrawerLayoutMain, errorMessage, 5000)
+                        .show();
             }
         }
 
