@@ -1,7 +1,12 @@
 package com.practice.phuc.baothanhshop;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -36,8 +41,16 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
 
     @Override
     protected void onResume() {
-        mScannerView.setResultHandler(this);
-        mScannerView.startCamera();
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_DENIED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 0);
+
+        } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED) {
+            mScannerView.setResultHandler(this);
+            mScannerView.startCamera();
+        }
         super.onResume();
     }
 
@@ -45,5 +58,24 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
     protected void onPause() {
         mScannerView.stopCamera();
         super.onPause();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 0:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mScannerView.setResultHandler(this);
+                    mScannerView.startCamera();
+
+                } else {
+                    ScanActivity.this.finish();
+                }
+                break;
+
+            default:
+                break;
+        }
     }
 }

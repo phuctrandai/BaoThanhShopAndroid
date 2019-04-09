@@ -19,7 +19,7 @@ public class OkHttpUtil {
     public static String SHARED_PRE_KEY_SERVER_PORT = "server_port";
     public static String SHARED_PRE_KEY_SERVER_ADDRESS = "server_address";
 
-    public static String DEFAULT_SERVER_PORT = "1501";
+    public static String DEFAULT_SERVER_PORT = "8082";
     public static String DEFAILT_SERVER_ADDRESS = "192.168.1.106";
 
     public static Response makeRequest(String url, boolean isPostMethod, RequestBody requestBody) {
